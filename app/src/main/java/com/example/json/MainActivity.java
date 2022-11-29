@@ -3,27 +3,13 @@ package com.example.json;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity{
@@ -38,12 +24,25 @@ public class MainActivity extends AppCompatActivity{
         String resultText = "값이 없음";
         try {
             resultText = new Task().execute().get();
+            JSONObject jsonObject = new JSONObject(resultText);
+            JSONObject name = (JSONObject) jsonObject.get("busan") ;
+//            String countryName = jsonObject.getString("busan");
+            StringBuilder sb = new StringBuilder();
+            sb.append("newCase: " + name.get("newCase")+"\n");
+            sb.append("countryName: " + name.get("countryName"));
+
+//            String newCase = jsonObject.getString("newCase");
+            parsing.setText(sb.toString());
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        parsing.setText(resultText);
+
+
  }
 
 
